@@ -1,0 +1,66 @@
+[{
+  "building" : "The Nest",
+  "x" : "49.266845",
+  "y" : "-123.250377",
+  "description" : "1st floor, seating area beside honour roll"
+},
+  {
+    "building" : "The Nest",
+    "x" : "49.266845",
+    "y" : "-123.250377",
+    "description" : "4th floor, out the patio"
+  },
+  {
+    "building" : "The Nest",
+    "x" : "49.266845",
+    "y" : "-123.250377",
+    "description" : "2nd floow, near the piano"
+  },
+  {
+    "building" : "Sauder",
+    "x" : "49.265039",
+    "y" : "-123.253575",
+    "description" : "1st floor in the cafe"
+  },
+  {
+    "building" : "Totem Park Residence commons block",
+    "x" : "49.257857",
+    "y" : "-123.253120",
+    "description" : "Walk up the stairs to the cafeteria, in the seating area beside the water machines"
+  },
+  {
+    "building" : "ICICS Computer Science",
+    "x" : "49.260865",
+    "y" : "-123.248799",
+    "description" : "In the cube (room 021)"
+  },
+  {
+    "building" : "MacMillan LFS building",
+    "x" : "49.261041",
+    "y" : "-123.251187",
+    "description" : "On ground floor in the seating are of the Agora Eat Cafe"
+  },
+  {
+    "building" : "EOAS building",
+    "x" : "49.263229",
+    "y" : "-123.252139",
+    "description" : "2nd floor in the student lounge"
+  },
+  {
+    "building" : "Buchannan C",
+    "x" : "49.268746",
+    "y" : "-123.254282",
+    "description" : "a few door down the IT helpdesk"
+  },
+  {
+    "building" : "Law building (Peter A. Allard School of Law)",
+    "x" : "49.270059",
+    "y" : "-123.253329",
+    "description" : "In the law cafe"
+  },
+  {
+    "building" : "",
+    "x" : "",
+    "y" : "",
+    "description" : ""
+  }]

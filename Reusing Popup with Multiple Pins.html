@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/css/atlas.min.css?api-version=1" type="text/css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <script src="https://atlas.microsoft.com/sdk/js/atlas.min.js?api-version=1"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -28,10 +29,20 @@
             <option value="" disabled>Waterfountains</option>
             <option value="" disabled>...</option>
         </select>
-        <form action="">
-            <button><i class="fas fa-plus"></i> Add new</button>
-        </form>
-        
+        <button id="add-button"><i class="fas fa-plus"></i> Add new</button>
     </fieldset>
+    <div id="add-modal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Add your own</h3>
+            <p><label>Building name: <input id="building" type="text" /></label></p>
+            <p><label>Description name: <input id="description" type="text" /></label></p>
+            <!-- <p><label>Co-ordinates: <input type="text" /> <input type="text" /></label></p> -->
+            <button id="submit-new-marker">Submit</button>
+        </div>
+      
+      </div>
 </body>
 </html>

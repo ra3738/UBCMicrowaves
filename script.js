@@ -1,4 +1,5 @@
-var map, datasource, popup;
+var map, datasource, popup, newMarker = {};
+var mapCenterPosition = [-123.250377, 49.266845];
 
 //Define an HTML template for a custom popup content laypout.
 var popupTemplate = '<div class="customInfobox"><div class="name">{name}</div>{description}</div>';
@@ -9,7 +10,7 @@ function GetMap() {
 
     //Initialize a map instance.
     map = new atlas.Map('myMap', {
-        center: [-123.250377, 49.266845],
+        center: mapCenterPosition,
         zoom: 14
     });
 
@@ -18,38 +19,16 @@ function GetMap() {
 
         //Create a data source and add it to the map.
         datasource = new atlas.source.DataSource(null, {
-            cluster: true
+            cluster: false
         });
         map.sources.add(datasource);
-
-        //Create three point features on the map and add some metadata in the properties which we will want to display in a popup.
-        // var point1 =  new atlas.data.Feature(new atlas.data.Point([-122.33, 47.64]), {
-        //     name: 'Point 1 Title',
-        //     description: 'This is the description 1.'
-        // });
-
-        // var point2 = new atlas.data.Feature(new atlas.data.Point([-122.335, 47.645]), {
-        //     name: 'Point 2 Title',
-        //     description: 'This is the description 2.'
-        // });
-
-        // var point3 = new atlas.data.Feature(new atlas.data.Point([-122.325, 47.635]), {
-        //     name: 'Point 3 Title',
-        //     description: 'This is the description 3.'
-        // });
-
-
-        // var point4 = new atlas.data.Feature(new atlas.data.Point([-123.2576861,49.2612843]), {
-        //     name: 'Stanford',
-        //     description: 'This is the description Stanford.'
-        // });
 
         //var data = JSON.parse(require('data.json'));
         var data = [{
               "building" : "The Nest",
               "x" : "49.266845",
               "y" : "-123.250377",
-              "description" : "1st floor, seating area beside honour roll \n 4th floor, out the patio \n 2nd floow, near the piano"
+              "description" : "1st floor, seating area beside honour roll <br> 2nd floow, near the piano <br> 4th floor, out the patio "
             },
               // {
               //   "building" : "The Nest",
@@ -63,6 +42,12 @@ function GetMap() {
               //   "y" : "-123.250377",
               //   "description" : "2nd floow, near the piano"
               // },
+              {
+                "building" : "The Nest",
+                "x" : "49.266845",
+                "y" : "-123.250377",
+                "description" : "4th floor, out the patio"
+              },
               {
                 "building" : "Sauder",
                 "x" : "49.265039",
@@ -140,6 +125,7 @@ function GetMap() {
 
         //Add a click event to the symbol layer.
         map.events.add('click', symbolLayer, symbolClicked);
+
     });
 }
 
@@ -181,3 +167,82 @@ function symbolClicked(e) {
         }
     }
 }
+
+
+function addMapMarker() {
+
+    /*Create a data source and add it to the map*/
+    var dataSource = new atlas.source.DataSource();
+    map.sources.add(dataSource);
+    var point = new atlas.Shape(new atlas.data.Point(mapCenterPosition),null,{
+        subType: "Circle",
+        radius: 50
+        });
+    
+//Create a polygon layer to render the filled in area of the circle polygon, and add it to the map.*/
+map.layers.add(new atlas.layer.PolygonLayer(dataSource, null, {
+    fillColor: 'rgba(0, 200, 200, 0.95)'
+   }));
+
+    //Add the symbol to the data source.
+    dataSource.add([point]);
+    
+    /* Gets co-ordinates of clicked location*/
+    map.events.add('click', function(e){
+        /* Update the position of the point feature to where the user clicked on the map. */
+        point.setCoordinates(e.position);
+
+        //add to our new Marker object
+        newMarker.coordinates = e.position;
+
+    });
+
+   
+    
+    //Create a symbol layer using the data source and add it to the map
+    map.layers.add(new atlas.layer.SymbolLayer(dataSource, null));
+}
+
+
+
+
+(function ($) {
+    $( document ).ready(function() {
+
+
+/************** ADD NEW ******************/
+        var $addButton = $("#add-button"),
+            $addModule = $("#add-modal").addClass('hidden'),
+            $submit = $("#submit-new-marker");
+        $addButton.on('click', function() {
+           $addModule.removeClass('hidden');
+           addMapMarker();
+        });
+        $addModule.find('.close').on('click', function() {
+            $addModule.addClass('hidden');
+        });
+
+        $submit.on('click', function(){
+            var build = newMarker.building = $('#building').value;
+            var y = newMarker.coordinates[0];
+            var x = newMarker.coordinates[1];
+
+            var point =  new atlas.data.Feature(new atlas.data.Point([y,x]), {
+                name: build,
+                description: ""
+            });
+
+            var myEvent = { building: build, x: y, y: x, description:"", };
+            $.ajax({
+                url:'/utilities', type: "POST", contentType: 'application/json; charset=uft-8',
+                data: $.toJSON(myEvent), dataType: 'text', success: function (result) {
+                    alert(result.Result);
+                }
+            });
+
+            datasource.add([point]);
+            
+        });
+        
+      });
+})(jQuery);

@@ -42,78 +42,9 @@
                 map.sources.add(datasource);
 
                 //var data = JSON.parse(require('data.json'));
-                var data = [{
-                    "building" : "The Nest",
-                    "x" : "49.266845",
-                    "y" : "-123.250377",
-                    "description" : "1st floor, seating area beside honour roll <br> 2nd floow, near the piano <br> 4th floor, out the patio "
-                    },
-                    // {
-                    //   "building" : "The Nest",
-                    //   "x" : "49.266845",
-                    //   "y" : "-123.250377",
-                    //   "description" : ""
-                    // },
-                    // {
-                    //   "building" : "The Nest",
-                    //   "x" : "49.266845",
-                    //   "y" : "-123.250377",
-                    //   "description" : "2nd floow, near the piano"
-                    // },
-                    {
-                        "building" : "The Nest",
-                        "x" : "49.266845",
-                        "y" : "-123.250377",
-                        "description" : "4th floor, out the patio"
-                    },
-                    {
-                        "building" : "Sauder",
-                        "x" : "49.265039",
-                        "y" : "-123.253575",
-                        "description" : "1st floor in the cafe"
-                    },
-                    {
-                        "building" : "Totem Park Residence commons block",
-                        "x" : "49.257857",
-                        "y" : "-123.253120",
-                        "description" : "Walk up the stairs to the cafeteria, in the seating area beside the water machines"
-                    },
-                    {
-                        "building" : "ICICS Computer Science",
-                        "x" : "49.260865",
-                        "y" : "-123.248799",
-                        "description" : "In the cube (room 021)"
-                    },
-                    {
-                        "building" : "MacMillan LFS building",
-                        "x" : "49.261041",
-                        "y" : "-123.251187",
-                        "description" : "On ground floor in the seating are of the Agora Eat Cafe"
-                    },
-                    {
-                        "building" : "EOAS building",
-                        "x" : "49.263229",
-                        "y" : "-123.252139",
-                        "description" : "2nd floor in the student lounge"
-                    },
-                    {
-                        "building" : "Buchannan C",
-                        "x" : "49.268746",
-                        "y" : "-123.254282",
-                        "description" : "a few door down the IT helpdesk"
-                    },
-                    {
-                        "building" : "Law building (Peter A. Allard School of Law)",
-                        "x" : "49.270059",
-                        "y" : "-123.253329",
-                        "description" : "In the law cafe"
-                    },
-                    {
-                        "building" : "",
-                        "x" : "",
-                        "y" : "",
-                        "description" : ""
-                    }]
+                var data = "{{data}}"
+                data = JSON.parse(data.replace(/&quot;/g,'"'));
+
 
                 for (var i = 0; i < data.length; i++) {
                     //alert(myStringArray[i]);
@@ -124,7 +55,7 @@
                     });
 
                     datasource.add([point]);
-                
+
                 }
 
 
@@ -166,7 +97,7 @@
                         //Feature is likely from a VectorTileSource.
                         content = popupTemplate.replace(/{name}/g, properties.name).replace(/{description}/g, properties.description);
                     }
-                    
+
                     coordinate = e.shapes[0].geometry.coordinates;
                 }
 
@@ -196,7 +127,7 @@
                 subType: "Circle",
                 radius: 50
                 });
-            
+
         //Create a polygon layer to render the filled in area of the circle polygon, and add it to the map.*/
         map.layers.add(new atlas.layer.PolygonLayer(dataSource, null, {
             fillColor: 'rgba(0, 200, 200, 0.95)'
@@ -204,7 +135,7 @@
 
             //Add the symbol to the data source.
             dataSource.add([point]);
-            
+
             /* Gets co-ordinates of clicked location*/
             map.events.add('click', function(e){
                 /* Update the position of the point feature to where the user clicked on the map. */
@@ -215,8 +146,8 @@
 
             });
 
-        
-            
+
+
             //Create a symbol layer using the data source and add it to the map
             map.layers.add(new atlas.layer.SymbolLayer(dataSource, null));
         }
@@ -241,28 +172,29 @@
                 });
 
                 $submit.on('click', function() {
-                    var build = newMarker.building = $('#building').value;
+                    var build = newMarker.building = $('#building').val();
+                    var description = newMarker.description = $('#description').val();
                     var y = newMarker.coordinates[0];
                     var x = newMarker.coordinates[1];
 
                     var point =  new atlas.data.Feature(new atlas.data.Point([y,x]), {
                         name: build,
-                        description: ""
+                        description: description
                     });
-                    
+
                     datasource.add([point]);
 
-                    var myEvent = { building: build, x: y, y: x, description:"", };
+                    var myEvent = { building: build, x: x, y: y, description: description, };
                     $.ajax({
-                        url:'/utilities', type: "POST", contentType: 'application/json; charset=uft-8',
-                        data: $.toJSON(myEvent), dataType: 'text', success: function (result) {
-                            alert(result.Result);
+                        url:'/utilities/', type: "POST", contentType: 'application/json; charset=uft-8',
+                        data: JSON.stringify(myEvent), dataType: 'text', success: function (result) {
+                            alert("Added!");
                         }
                     });
 
                     console.log('adding point')
                 });
-                
+
             });
         })(jQuery);
 
@@ -273,30 +205,30 @@
                 padding: 10px;
                 font-size: 12px;
             }
-            
+
             .customInfobox .name {
                 font-size: 14px;
                 font-weight: bold;
                 margin-bottom: 5px;
             }
-            
+
             .modal {
                 /* margin: auto;
                 position: absolute;
                 top: 0; left: 0; bottom: 0; right: 0;
-            
+
                 display: flex;
                 align-items: center;
                 justify-content: center; */
             }
-            
+
             .modal-content {
                 background: lightgray;
                 padding: 20px;
                 min-height: 150px;
                 min-width: 300px;
             }
-            
+
             .hidden {
                 display: none;
             }</style>
@@ -325,7 +257,7 @@
             <!-- <p><label>Co-ordinates: <input type="text" /> <input type="text" /></label></p> -->
             <button id="submit-new-marker">Submit</button>
         </div>
-      
+
       </div>
 </body>
 </html>

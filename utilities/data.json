@@ -57,10 +57,9 @@
     "x" : "49.270059",
     "y" : "-123.253329",
     "description" : "In the law cafe"
-  },
-  {
-    "building" : "",
-    "x" : "",
-    "y" : "",
-    "description" : ""
-  }]
+  }
+, 
+{"building":"Tarang's MW","x":49.27211687119336,"y":-123.24336290359602,"description":"MW"}
+, 
+{"building":"tttttt","x":49.264178805569856,"y":-123.24223834421262,"description":"eeeeeee"}
+ ]
